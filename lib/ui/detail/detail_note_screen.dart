@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:notes_flutter/model/note.dart';
+import 'package:notes_flutter/core/data/local/floor/note/note.dart';
 
 class DetailNoteScreen extends StatefulWidget {
   const DetailNoteScreen({super.key, required this.notes});

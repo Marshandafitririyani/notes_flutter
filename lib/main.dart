@@ -1,13 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:notes_flutter/ui/splash/screen/splash_screen.dart';
+import 'package:notes_flutter/core/di/app_module.dart';
+import 'package:notes_flutter/ui/splash/splash_screen.dart';
 
+/*
 void main() {
-  /*SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+  */
+/*SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarBrightness: Brightness.light,
     statusBarIconBrightness: Brightness.light,
     systemNavigationBarColor: Colors.deepPurple,
 
-  ));*/
+  ));*//*
+
+  runApp(const MyApp());
+}
+*/
+
+Future<void> main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await AppModule.initService();
   runApp(const MyApp());
 }
 
