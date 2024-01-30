@@ -18,19 +18,20 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
 
-  final List<Note> notes = [
-    Note('images/img_logo_home.png',
+
+/*  final List<Note> notes = [
+    Note(1,'images/img_logo_home.png',
         'Create First Android App', 'Create a mobile app UI Kit that provide a basic notes functionality but with some improvement There will be a choice to select what kind of notes that user needed, so the experience while taking notes can be unique based on the needs. Create a mobile app UI Kit that provide a basic notes functionality but with some improvement', '2024-01-14 12:23:08'),
-    Note('images/img_logo_home.png', 'Create First Android App', 'Create a mobile app UI Kit that provide a basic notes functionality but with some improvement.', '2024-01-14 12:23:08'),
-    Note('images/img_logo_home.png', 'Create First Android App', 'Create a mobile app UI Kit that provide a basic notes functionality but with some improvement.', '2024-01-14 12:23:08'),
-    Note('images/img_logo_home.png', 'Create First Android App', 'Create a mobile app UI Kit that provide a basic notes functionality but with some improvement There will be a choice to select what kind of notes that user needed, so the experience while taking notes can be unique based on the needs.', '2024-01-14 12:23:08'),
-    Note('images/img_logo_home.png', 'Create First Android App', 'Create a mobile app UI Kit that provide a basic notes functionality but with some improvement.', '2024-01-14 12:23:08'),
-    Note('images/img_logo_home.png', 'Create First Android App', 'Create a mobile app UI Kit that provide a basic notes functionality but with some improvement.', '2024-01-14 12:23:08'),
-    Note('images/img_logo_home.png', 'Create First Android App', 'Create a mobile app UI Kit that provide a basic notes functionality but with some improvement There will be a choice to select what kind of notes that user needed, so the experience while taking notes can be unique based on the needs.', '2024-01-14 12:23:08'),
-    Note('images/img_logo_home.png', 'Create First Android App', 'Create a mobile app UI Kit that provide a basic notes functionality but with some improvement There will be a choice to select what kind of notes that user needed, so the experience while taking notes can be unique based on the needs.', '2024-01-14 12:23:08'),
+    Note(2,'images/img_logo_home.png', 'Create First Android App', 'Create a mobile app UI Kit that provide a basic notes functionality but with some improvement.', '2024-01-14 12:23:08'),
+    Note(3,'images/img_logo_home.png', 'Create First Android App', 'Create a mobile app UI Kit that provide a basic notes functionality but with some improvement.', '2024-01-14 12:23:08'),
+    Note(4,'images/img_logo_home.png', 'Create First Android App', 'Create a mobile app UI Kit that provide a basic notes functionality but with some improvement There will be a choice to select what kind of notes that user needed, so the experience while taking notes can be unique based on the needs.', '2024-01-14 12:23:08'),
+    Note(5,'images/img_logo_home.png', 'Create First Android App', 'Create a mobile app UI Kit that provide a basic notes functionality but with some improvement.', '2024-01-14 12:23:08'),
+    Note(6,'images/img_logo_home.png', 'Create First Android App', 'Create a mobile app UI Kit that provide a basic notes functionality but with some improvement.', '2024-01-14 12:23:08'),
+    Note(7,'images/img_logo_home.png', 'Create First Android App', 'Create a mobile app UI Kit that provide a basic notes functionality but with some improvement There will be a choice to select what kind of notes that user needed, so the experience while taking notes can be unique based on the needs.', '2024-01-14 12:23:08'),
+    Note(8,'images/img_logo_home.png', 'Create First Android App', 'Create a mobile app UI Kit that provide a basic notes functionality but with some improvement There will be a choice to select what kind of notes that user needed, so the experience while taking notes can be unique based on the needs.', '2024-01-14 12:23:08'),
 
 
-  ];
+  ];*/
 
   final HomeViewModel viewModel = Get.put(HomeViewModel());
 
@@ -70,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
 
-            notesDetail(notes)
+            // notesDetail(notes)
           ],
         ),
       ),

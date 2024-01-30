@@ -10,15 +10,14 @@ class AppModule {
     Get.lazyPut(() => Get.find<AppDatabase>().noteDao);
     //lazyput dibuat ketika dipanggil (getfind)
 
-
-
     final noteSample = Note(
+        9,
         'images/img_logo_home.png',
         'Create First Android App',
         'Create a mobile app UI Kit that provide a basic notes functionality but with some improvement.',
         '2024-01-14 12:23:08');
 
-    Get.put(()=> noteSample);
+    Get.put(() => noteSample);
     // put dibuat disini sudah ada
   }
 }

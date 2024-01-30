@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:intl/intl.dart';
 
 import '../../core/data/local/floor/note/note.dart';
 import '../../core/utils/const.dart';
+import 'add_view_model.dart';
 
 class AddScreen extends StatefulWidget {
   const AddScreen({super.key, required this.action, this.note});
@@ -17,6 +20,9 @@ class AddScreen extends StatefulWidget {
 
 class _AddScreenState extends State<AddScreen> {
 
+  final AddViewModel viewModel = Get.put(AddViewModel());
+
+
   late String _action;
   late IconData _iconAction;
 
@@ -24,6 +30,8 @@ class _AddScreenState extends State<AddScreen> {
   final DateFormat _dateFormatterRaw = DateFormat("yyyy-MM-dd HH:mm:ss");
   final DateFormat _dateFormat = DateFormat('d MMMM yyyy, HH:mm');
 
+  late TextEditingController _titleController;
+  late TextEditingController _contentController;
 
   @override
   void initState() {
@@ -38,8 +46,21 @@ class _AddScreenState extends State<AddScreen> {
     if(_action == Constant.DETAIL || _action == Constant.EDIT){
       _dateNow = _dateFormatterRaw.parse(widget.note?.date ?? '');
     }
+
+    _titleController = TextEditingController(text: widget.note?.title);
+    _contentController = TextEditingController(text: widget.note?.content);
     super.initState();
   }
+
+
+  @override
+  void dispose(){
+    _titleController.dispose();
+    _contentController.dispose();
+    super.dispose();
+  }
+
+
 
 
 
@@ -102,18 +123,14 @@ class _AddScreenState extends State<AddScreen> {
                             Container(
                               child: TextButton(
                                   onPressed: () {
+                                    String inputTitle = _titleController.text;
+                                    String inputContent = _contentController.text;
+                                    Note note = Note(widget.note?.id,'', inputTitle, inputContent, _dateFormatterRaw.format(DateTime.now()));
+                                    viewModel.addNote(note);
+                                    Navigator.pop(context);
                                     Navigator.pop(context);
                                   },
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(24),
-                                    child: Container(
-                                        color: Colors.deepPurple,
-                                        padding: EdgeInsets.all(16),
-                                        child: Text(
-                                          'Save',
-                                          style: TextStyle(color: Colors.white),
-                                        )),
-                                  )),
+                                  child: Text('Save')),
                             ),
                           ],
                         ),
@@ -149,6 +166,8 @@ class _AddScreenState extends State<AddScreen> {
                       ),
                       TextButton(
                           onPressed: () {
+                            viewModel.deleteNote(widget.note?.id);
+                            Navigator.pop(context);
                             Navigator.pop(context);
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(snackBarDelete);
@@ -160,115 +179,6 @@ class _AddScreenState extends State<AddScreen> {
               );
             }, icon: Icon(Icons.delete_outline))
           ]
-
-
-
-      /*    if (widget.action == 'add') ...
-          [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: GestureDetector(
-                onTap: () {
-                  AlertDialog alert = AlertDialog(
-                    title: Text("Save",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          color: Color(0xFF180E25),
-                          fontSize: 20,
-                        ),
-                        textAlign: TextAlign.center),
-                    content: Text(
-                      "Are you sure you want to save this note?",
-                      style: TextStyle(
-                          color: Color(0xFF827D89),
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400),
-                    ),
-                    actions: [
-                      Container(
-                        margin: EdgeInsets.only(left: 35),
-                        child: Row(
-                          children: [
-                            TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(snackBar);
-                                },
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(24),
-                                  child: Container(
-                                      color: Colors.deepPurple,
-                                      padding: EdgeInsets.all(16),
-                                      child: Text(
-                                        'Cancle',
-                                        style: TextStyle(color: Colors.white),
-                                      )),
-                                )),
-                            Container(
-                              child: TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(24),
-                                    child: Container(
-                                        color: Colors.deepPurple,
-                                        padding: EdgeInsets.all(16),
-                                        child: Text(
-                                          'Save',
-                                          style: TextStyle(color: Colors.white),
-                                        )),
-                                  )),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  );
-
-                  // show the dialog
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return alert;
-                    },
-                  );
-                },
-                child: Icon(
-                  Icons.check_circle_outline,
-                  color: Colors.deepPurple,
-                ),
-              ),
-            ),
-          ] else if (widget.action == 'detail') ...
-          [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Container(
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return AddScreen(action: 'edit', note: widget.note);
-                    }));
-                  },
-                  child: Icon(
-                    Icons.edit,
-                    color: Colors.deepPurple,
-                  ),
-                ),
-              ),
-            )
-          ] else if (widget.action == 'edit') ...[*/
-            /*Container(
-              padding: EdgeInsets.all(16.0),
-              child: Icon(
-                Icons.save,
-                color: Colors.deepPurple,
-              ),
-            )
-          ]*/
         ],
       ),
       body: SafeArea(
@@ -291,7 +201,9 @@ class _AddScreenState extends State<AddScreen> {
                     keyboardType: TextInputType.multiline,
                     maxLines: null,
                     readOnly: _action == Constant.DETAIL,
-                    initialValue: widget.note?.title ?? '',
+                    textCapitalization: TextCapitalization.words,
+                    // initialValue: widget.note?.title ?? '',
+                    controller: _titleController,
                     decoration: new InputDecoration.collapsed(
                         hintStyle: TextStyle(
                             fontSize: 32,
@@ -307,7 +219,8 @@ class _AddScreenState extends State<AddScreen> {
                     margin: EdgeInsets.only(top: 16),
                     child: TextFormField(
                       readOnly: _action == Constant.DETAIL,
-                      initialValue: widget.note?.content ?? '',
+                      // initialValue: widget.note?.content ?? '',
+                      controller: _contentController,
                       keyboardType: TextInputType.multiline,
                       maxLines: null,
                       decoration: new InputDecoration.collapsed(

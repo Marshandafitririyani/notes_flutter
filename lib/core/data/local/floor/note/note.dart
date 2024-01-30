@@ -10,7 +10,7 @@ class Note {
   String content;
   String date;
 
-  Note(this.photo, this.title, this.content, this.date);
+  Note(this.id, this.photo, this.title, this.content, this.date);
 
   String dateTimeFormated() {
     // DateTime.fromMillisecondsSinceEpoch(0)
