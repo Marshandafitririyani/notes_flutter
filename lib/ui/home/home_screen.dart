@@ -4,9 +4,8 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:notes_flutter/ui/add/add_screen.dart';
-import 'package:notes_flutter/ui/detail/detail_note_screen.dart';
-
 import '../../core/data/local/floor/note/note.dart';
+import '../../core/utils/const.dart';
 import 'home_view_model.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -34,6 +33,8 @@ class _HomeScreenState extends State<HomeScreen> {
   ];*/
 
   final HomeViewModel viewModel = Get.put(HomeViewModel());
+
+
 
 
   @override
@@ -72,6 +73,31 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
 
             // notesDetail(notes)
+
+            GetBuilder<HomeViewModel>(
+                builder: (viewModel) {
+                  return Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Stack(
+                          children: [
+                            if (viewModel.notes.isEmpty)...[
+                              _emptyView()
+                            ],
+                            SingleChildScrollView(
+                                child: StaggeredGrid.count(
+                                    crossAxisCount: 2,
+                                    mainAxisSpacing: 4,
+                                    crossAxisSpacing: 4,
+                                    children: viewModel.notes.map((note) => _itemNote(note)).toList()
+                                )
+                            )
+                          ]
+                      ),
+                    ),
+                  );
+                }
+            )
           ],
         ),
       ),
@@ -88,7 +114,70 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  notesDetail(List<Note> notes) {
+  Widget _itemNote(Note note) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(context,MaterialPageRoute(builder: (context) {
+          return AddScreen(action: Constant.DETAIL, note: note);
+        }));
+      },
+      child: Card(
+        elevation: 1,
+        surfaceTintColor: Colors.white,
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.all(12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    note.title,
+                    maxLines: 2,
+                    textAlign: TextAlign.start,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xFF180E25)
+                    ),
+                  ),
+                  Container(height: 12),
+                  Text(
+                    note.content,
+                    textAlign: TextAlign.start,
+                    maxLines: 10,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w400,
+                        color: Color(0xFF180E25)
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              width: double.infinity,
+              color: Color(0xFFEFEEF0),
+              child: Text(
+                note.dateTimeFormated(),
+                style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w400,
+                    color: Color(0xFF827D89)
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+ /* notesDetail(List<Note> notes) {
     return Expanded(
       child: SingleChildScrollView(
         child: Container(
@@ -156,6 +245,33 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
 
+  }*/
+
+  Column _emptyView() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Image.asset('assets/images/img_empty.png'),
+        Container(height: 24),
+        Text(
+          'Start Your Journey',
+          style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.w700,
+              color: Color(0xFF180E25)),
+        ),
+        Container(height: 16),
+        Text(
+          'Every big step start with small step.\nNotes your first idea and start your journey!',
+          style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+              color: Color(0xFF827D89)),
+          textAlign: TextAlign.center,
+        )
+      ],
+    );
   }
 
 }

@@ -101,24 +101,19 @@ class _AddScreenState extends State<AddScreen> {
                     ),
                     actions: [
                       Container(
-                        margin: EdgeInsets.only(left: 35),
+                        alignment: Alignment.topRight,
+                        // margin: EdgeInsets.only(left: 35),
                         child: Row(
                           children: [
                             TextButton(
                                 onPressed: () {
                                   Navigator.pop(context);
                                   ScaffoldMessenger.of(context)
-                                      .showSnackBar(snackBar);
+                                      .showSnackBar(snackBarCancle);
                                 },
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(24),
-                                  child: Container(
-                                      color: Colors.deepPurple,
-                                      padding: EdgeInsets.all(16),
-                                      child: Text(
-                                        'Cancle',
-                                        style: TextStyle(color: Colors.white),
-                                      )),
+                                child: Text(
+                                  'Cancle',
+                                  style: TextStyle(color: Colors.deepPurple, fontSize: 14),
                                 )),
                             Container(
                               child: TextButton(
@@ -130,7 +125,10 @@ class _AddScreenState extends State<AddScreen> {
                                     Navigator.pop(context);
                                     Navigator.pop(context);
                                   },
-                                  child: Text('Save')),
+                                  child: Text(
+                                    'Save',
+                                    style: TextStyle(color: Colors.deepPurple, fontSize: 14),
+                                  )),
                             ),
                           ],
                         ),
@@ -267,4 +265,8 @@ final snackBar = SnackBar(
 
 final snackBarDelete = SnackBar(
   content: const Text('Delete Succes'),
+);
+
+final snackBarCancle = SnackBar(
+  content: const Text('Didn\'t save it'),
 );
